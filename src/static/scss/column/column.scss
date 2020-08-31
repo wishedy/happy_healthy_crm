@@ -1,0 +1,16 @@
+@import "../untils/common";
+.adminContentInner{
+    @include ContentInner();
+    .adminInputEl{
+        width:200px;
+    }
+    .adminUserControl{
+        padding: 0 0 10px 0;
+    }
+    .adminPage{
+        padding: 20px 0;
+    }
+    .adminAuditControl{
+        padding: 20px 0;
+    }
+}

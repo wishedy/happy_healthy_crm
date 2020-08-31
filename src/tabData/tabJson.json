@@ -1,0 +1,21 @@
+{
+    "result":{
+        "des":"整个后台管理系统侧边栏结构原型",
+        "tabList":[
+            {
+                "index":"0",
+                "title":"会员管理",
+                "icon":"el-icon-ump-VIP",
+                "tabList":[
+                    {
+                        "index":"0-1",
+                        "title":"会员统计",
+                        "icon":"el-icon-ump-VIP",
+                        "routerName":"001"
+                    }
+                ]
+            }
+        ]
+    }
+}
+

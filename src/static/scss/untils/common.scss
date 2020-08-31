@@ -1,0 +1,16 @@
+@mixin ContentInner(){
+    width: 96%;
+    height: 96%;
+    padding: 2%;
+    padding-right: 1%;
+    position: relative;
+    z-index: 0;
+}
+@mixin maskBg(){
+    background: #1BBC9B;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 2000;
+    color: #df0d4c;
+}
