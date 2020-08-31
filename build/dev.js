@@ -9,22 +9,8 @@ var server = new webpackDevServer(compiler, {
     publicPath: config.dev.outputPublicPath,
     stats: { colors: true },
     proxy:{
-        '/call': {
-            target: 'http://localhost:8001',
-            changeOrigin: true,
-            pathRewrite: {
-                '^/call': '/call'
-            }
-        },
-        '/manage': {
-            target: 'http://188.131.139.100:8083',
-            changeOrigin: true,
-            pathRewrite: {
-                '^/manage': '/manage'
-            }
-        },
         '/api': {
-            target: 'http://47.105.160.157:8080',
+            target: 'http://49.232.7.184:8080',
             changeOrigin: true,
             pathRewrite: {
                 '^/api': '/api'

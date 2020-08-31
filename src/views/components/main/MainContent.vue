@@ -9,7 +9,7 @@
                 active-text-color="#ffd04b">
                 <Hamburger class="adminNav" @click.native.stop="toggleSide" :class="{'rotateClassName':toggleOnOff}"></Hamburger>
                 <p class="adminTitle">后台管理系统</p>
-                <div class="adminWelcome"><!--学研汇CRM--></div>
+                <div class="adminWelcome"><!--美满健康CRM--></div>
                 <div class="right-menu">
                     <el-dropdown>
                     <section class="adminUser">
