@@ -257,7 +257,7 @@ export default {
     checkLogin () {
       const t = this
       axios.post('/api/sysUser/login', {
-        phoneNum: t.ruleForm2.pass,
+        loginName: t.ruleForm2.pass,
         password: md5(t.ruleForm2.checkPass)
       })
         .then(function (response) {

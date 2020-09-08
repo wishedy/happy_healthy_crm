@@ -12,6 +12,18 @@
                         "title":"会员统计",
                         "icon":"el-icon-ump-VIP",
                         "routerName":"001"
+                    },
+                    {
+                        "index":"0-2",
+                        "title":"试题列表",
+                        "icon":"el-icon-ump-VIP",
+                        "routerName":"002"
+                    },
+                    {
+                        "index":"0-3",
+                        "title":"试题分类",
+                        "icon":"el-icon-ump-VIP",
+                        "routerName":"003"
                     }
                 ]
             }
