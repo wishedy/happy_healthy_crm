@@ -33,7 +33,7 @@
                 <el-radio-group v-model="form.status">
                     <el-radio v-for="(item,key) in status"
                               :key="key"
-                              :label="parseInt(key,10)"
+                              :label="key"
                               :value="key">{{item}}</el-radio>
                 </el-radio-group>
             </el-form-item>
