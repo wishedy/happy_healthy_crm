@@ -6,7 +6,7 @@
         @cancel="handleClose"
         @confirm="onsubmit"
     >
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px">
             <el-form-item label="试卷名称" prop="names">
                 <el-input v-model="form.names"></el-input>
             </el-form-item>
@@ -36,6 +36,18 @@
                               :label="key"
                               :value="key">{{item}}</el-radio>
                 </el-radio-group>
+            </el-form-item>
+            <el-form-item
+                label="试卷排序："
+                prop="orderBy"
+                class="form-item-bar"
+            >
+                <el-input
+                    v-model.number="form.orderBy"
+                    type='number'
+                    class="search-box-item"
+                    placeholder="请输入试卷排序"
+                />
             </el-form-item>
             <el-form-item label="试卷封面" prop="imgUrl">
                 <div class="upload-wrapper">
@@ -118,6 +130,8 @@ export default {
       form: {
         id: '',
         typeId: '',
+        orderBy: '',
+
         beginPrice: '',
         status: 0,
         names: '',
@@ -141,6 +155,14 @@ export default {
           {
             required: true,
             message: '展示价格不能为空',
+            trigger: 'blur'
+          }
+        ],
+        orderBy: [
+          { min: 0, type: 'integer', message: '请输入正确的排序', trigger: ['blur'] },
+          {
+            required: true,
+            message: '排序不能为空',
             trigger: 'blur'
           }
         ],
@@ -176,10 +198,11 @@ export default {
       originalForm: {
         id: '',
         typeId: '',
+        orderBy: '',
 
         beginPrice: '',
         names: '',
-        status: 0,
+        status: '0',
         describes: '',
         imgUrl: '',
         showPrice: ''

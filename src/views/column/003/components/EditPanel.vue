@@ -83,7 +83,7 @@ export default {
       },
       form: {
         id: '',
-        status: 0,
+        status: '0',
         typeName: '',
         createUser: '',
         orderBy: '',
@@ -124,7 +124,7 @@ export default {
       originalForm: {
         id: '',
         typeName: '',
-        status: 0,
+        status: '0',
         createUser: '',
         orderBy: '',
         describes: '',
