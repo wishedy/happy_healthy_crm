@@ -29,3 +29,15 @@ export function updateQuestions (params) {
   console.log(params)
   return api.post('/api/paperInfo/update', params)
 }
+export function addBanner (params) {
+    console.log(params)
+    return api.post('/api/sysBanner/insert', params)
+}
+export function getBanner (params) {
+    console.log(params)
+    return api.get(`/api/sysBanner/query?${json2Query(params)}`)
+}
+export function updateBanner (params) {
+    console.log(params)
+    return api.post(`/api/sysBanner/update`,params)
+}

@@ -24,6 +24,12 @@
                         "title":"试题分类",
                         "icon":"el-icon-ump-VIP",
                         "routerName":"003"
+                    },
+                    {
+                        "index":"0-4",
+                        "title":"轮播图",
+                        "icon":"el-icon-ump-VIP",
+                        "routerName":"004"
                     }
                 ]
             }
