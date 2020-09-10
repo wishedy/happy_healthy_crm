@@ -18,6 +18,7 @@
                 @handleCurrentChange="handleCurrentChange"
             ></Pagination>
             <EditPanel
+                :typeList="typeList"
                 :editData = "editData"
                 @submit="handleSubmit"
                 :visible.sync = "editVisibile"
@@ -26,7 +27,7 @@
     </section>
 </template>
 <script>
-import { getQuestions, addQuestions } from '@/resource'
+import { updateQuestions, getQuestionsType, getQuestions, addQuestions } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import TableList from './components/TableList'
@@ -40,6 +41,7 @@ export default {
       updateUser: adminId,
       pageNum: 1,
       pageSize: 10,
+      typeList: [],
       editData: {},
       submitData: {},
       tableList: [],
@@ -69,14 +71,38 @@ export default {
         _this.handleAddRequest()
       }
     },
+    async getTypeList (data) {
+      const _this = this
+      const param = {
+        pageSize: 10000,
+        pageNum: 1
+      }
+      const req = await getQuestionsType(param)
+      _this.typeList = req.list
+      console.log(req)
+    },
     async handleAddRequest () {
       const _this = this
+      console.log(_this.updateUser + '创建用户')
+      debugger
       const res = await addQuestions({
         createUser: _this.updateUser,
         ..._this.submitData
       })
       if (res) {
         const message = _this.submitData.id ? '编辑完成' : '创建完成'
+        _this.$message.success(message)
+      }
+      _this.handleAfterRequest()
+    },
+    async handleUpdateRequest () {
+      const _this = this
+      const res = await updateQuestions({
+        updateUser: _this.updateUser,
+        ..._this.submitData
+      })
+      if (res) {
+        const message = _this.submitData.id ? '编辑完成' : '更新完成'
         _this.$message.success(message)
       }
       _this.handleAfterRequest()
@@ -92,7 +118,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        _this.handleAddRequest()
+        _this.handleUpdateRequest()
       }).catch(() => {})
     },
     handleAfterRequest () {
@@ -109,6 +135,7 @@ export default {
       console.log(_this.editVisibile)
     },
     async getTableList (data) {
+      console.log('获取数据')
       const _this = this
       const param = {
         pageSize: _this.pageSize,
@@ -126,6 +153,7 @@ export default {
   },
   mounted () {
     const _this = this
+    _this.getTypeList()
     _this.getTableList()
   },
   components: {

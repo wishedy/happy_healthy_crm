@@ -6,7 +6,7 @@
         @cancel="handleClose"
         @confirm="onsubmit"
     >
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form ref="form" :model="form" :rules="rules" label-width="110px">
             <el-form-item label="试卷分类名称" prop="typeName">
                 <el-input v-model="form.typeName"></el-input>
             </el-form-item>
@@ -14,7 +14,7 @@
                 <el-radio-group v-model="form.status">
                     <el-radio v-for="(item,key) in status"
                               :key="key"
-                              :label="parseInt(key,10)"
+                              :label="key"
                               :value="key">{{item}}</el-radio>
                 </el-radio-group>
             </el-form-item>

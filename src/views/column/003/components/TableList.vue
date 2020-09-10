@@ -8,50 +8,36 @@
             style="width: 100%">
             <el-table-column
                 prop="id"
-                label="会员ID">
+                label="类型ID">
             </el-table-column>
             <el-table-column
-                prop="trueName"
-                label="会员名称">
-            </el-table-column>、
-            <el-table-column
-                prop="userTutor"
-                label="导师">
+                prop="typeName"
+                label="类型名称">
+            </el-table-column>
+            <el-table-column label="封面" min-width="200px">
+                <template slot-scope="scope">
+                    <img :src="scope.row.imgUrl" alt class="table-img" />
+                </template>
             </el-table-column>
             <el-table-column
-                prop="userEmail"
-                label="邮箱">
+                prop="describes"
+                label="类型描述">
             </el-table-column>
             <el-table-column
-                prop="userIdCard"
-                label="身份证号">
+                prop="status"
+                :formatter="formatStatus"
+                label="类型状态">
             </el-table-column>
             <el-table-column
-                prop="userWork"
-                :formatter="formatterWork"
-                label="职业">
-            </el-table-column>
-            <el-table-column
-                prop="phoneNum"
-                label="电话">
-            </el-table-column>
-            <el-table-column
-                prop="business"
-                label="方向">
-            </el-table-column>
-            <el-table-column
-                prop="city"
-                label="所在地">
-            </el-table-column>
-            <el-table-column
-                prop="userSchool"
-                label="学校/单位">
+                prop="orderBy"
+                sortable
+                label="排序">
             </el-table-column>
             <el-table-column
                 prop="createTime"
                 sortable
                 :formatter="formatterCreateTime"
-                label="注册时间">
+                label="创建时间">
             </el-table-column>
             <el-table-column
                 prop="updateTime"
@@ -69,7 +55,7 @@
 </template>
 
 <script>
-import { formatDate } from '../../../../utils/common'
+import moment from 'moment'
 export default {
   props: {
     tableList: {
@@ -80,17 +66,6 @@ export default {
     }
   },
   methods: {
-    upLoadZip (id) {
-      const _this = this
-      _this.$router.push({
-        path: '/addProTemplate',
-        query: {
-          type: 1,
-          id: id,
-          updateUser: _this.updateUser
-        }
-      })
-    },
     editColumn (data) {
       const _this = this
       _this.$emit('edit', data)
@@ -101,36 +76,11 @@ export default {
     },
     formatterCreateTime (row, column) {
       const time = row.createTime
-      return formatDate(time)
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     formatterUpdateTime (row, column) {
       const time = row.updateTime || row.createTime
-      return formatDate(time)
-    },
-    formatterWork (row, column) {
-      const grade = parseInt(row.userWork, 10)
-      let userWork = ''
-      switch (grade) {
-        case 1:
-          userWork = '学生'
-          break
-        case 2:
-          userWork = '教职工'
-          break
-        case 3:
-          userWork = '企业'
-          break
-        case 4:
-          userWork = '医院'
-          break
-        case 5:
-          userWork = '个人'
-          break
-        case 6:
-          userWork = row.profession
-          break
-      }
-      return userWork
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

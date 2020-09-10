@@ -17,7 +17,15 @@ export function addQuestionsType (params) {
   console.log(params)
   return api.post('/api/paperType/insert', params)
 }
+export function updateQuestionsType (params) {
+  console.log(params)
+  return api.post('/api/paperType/update', params)
+}
 export function addQuestions (params) {
   console.log(params)
   return api.post('/api/paperInfo/insert', params)
+}
+export function updateQuestions (params) {
+  console.log(params)
+  return api.post('/api/paperInfo/update', params)
 }

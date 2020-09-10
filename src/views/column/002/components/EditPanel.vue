@@ -16,6 +16,19 @@
             <el-form-item label="展示价格" prop="showPrice">
                 <el-input v-model="form.showPrice"></el-input>
             </el-form-item>
+            <el-form-item
+                label="试卷类型:"
+                prop="typeId"
+            >
+                <el-select clearable placeholder="请选择订单状态" v-model="form.typeId" class="search-box-item">
+                    <el-option
+                        v-for="item in typeList"
+                        :key="item.id"
+                        :label="item.typeName"
+                        :value="item.id"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="试卷状态" prop="online">
                 <el-radio-group v-model="form.status">
                     <el-radio v-for="(item,key) in status"
@@ -59,6 +72,12 @@ export default {
         return {}
       }
     },
+    typeList: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     visible: {
       type: Boolean,
       required: true,
@@ -98,10 +117,10 @@ export default {
       },
       form: {
         id: '',
+        typeId: '',
         beginPrice: '',
         status: 0,
         names: '',
-        createUser: '',
         describes: '',
         imgUrl: '',
         showPrice: ''
@@ -132,6 +151,13 @@ export default {
             trigger: 'blur'
           }
         ],
+        typeId: [
+          {
+            required: true,
+            message: '试卷类型不能为空',
+            trigger: 'blur'
+          }
+        ],
         describes: [
           {
             required: true,
@@ -149,10 +175,11 @@ export default {
       },
       originalForm: {
         id: '',
+        typeId: '',
+
         beginPrice: '',
         names: '',
         status: 0,
-        createUser: '',
         describes: '',
         imgUrl: '',
         showPrice: ''

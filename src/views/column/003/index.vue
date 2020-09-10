@@ -26,7 +26,7 @@
     </section>
 </template>
 <script>
-import { getQuestionsType, addQuestionsType } from '@/resource'
+import { updateQuestionsType, getQuestionsType, addQuestionsType } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import TableList from './components/TableList'
@@ -71,9 +71,24 @@ export default {
     },
     async handleAddRequest () {
       const _this = this
-      const res = await addQuestionsType(_this.submitData)
+      const res = await addQuestionsType({
+        createUser: _this.updateUser,
+        ..._this.submitData
+      })
       if (res) {
         const message = _this.submitData.id ? '编辑完成' : '创建完成'
+        _this.$message.success(message)
+      }
+      _this.handleAfterRequest()
+    },
+    async handleUpdateRequest () {
+      const _this = this
+      const res = await updateQuestionsType({
+        updateUser: _this.updateUser,
+        ..._this.submitData
+      })
+      if (res) {
+        const message = _this.submitData.id ? '编辑完成' : '更新完成'
         _this.$message.success(message)
       }
       _this.handleAfterRequest()
@@ -89,7 +104,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        _this.handleAddRequest()
+        _this.handleUpdateRequest()
       }).catch(() => {})
     },
     handleAfterRequest () {
