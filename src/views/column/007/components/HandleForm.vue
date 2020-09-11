@@ -1,18 +1,18 @@
 <template>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" label-position="left">
-        <el-form-item label="轮播图ID">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="110px" label-position="left">
+        <el-form-item label="管理员ID">
             <el-input v-model="formInline.id" placeholder="请输入会员ID" class="adminInputEl"></el-input>
         </el-form-item>
-        <el-form-item label="轮播图名称">
-            <el-input v-model="formInline.names" placeholder="请输入会员名称" class="adminInputEl"></el-input>
+        <el-form-item label="管理员名称">
+            <el-input v-model="formInline.realName" placeholder="请输入会员名称" class="adminInputEl"></el-input>
         </el-form-item>
         <el-form-item
-            label="轮播图状态:"
-            prop="status"
+            label="管理员状态:"
+            prop="deleteFlag"
         >
-            <el-select clearable placeholder="请选择轮播图状态" v-model="formInline.status" class="search-box-item">
+            <el-select clearable placeholder="请选择管理员状态" v-model="formInline.deleteFlag" class="search-box-item">
                 <el-option
-                    v-for="(item,index) in status"
+                    v-for="(item,index) in deleteFlag"
                     :key="item"
                     :label="item"
                     :value="index"
@@ -48,9 +48,6 @@
             <el-form-item>
                 <el-button type="warning" @click.native="resetList">重置</el-button>
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click.native="createHandle">创建轮播图</el-button>
-            </el-form-item>
         </div>
     </el-form>
 </template>
@@ -63,17 +60,18 @@ export default {
       updateUser: adminId,
       formInline: {
         id: '',
-        status: '',
-        names: ''
-      },
-      status: {
-        0: '下架',
-        1: '上架'
+        deleteFlag: '',
+        realName: ''
+
       },
       originalForm: {
         id: '',
-        status: '',
-        names: ''
+        deleteFlag: '',
+        realName: ''
+      },
+      deleteFlag: {
+        0: '下架',
+        1: '上架'
       },
       duringTime: [],
       updateDuringTime: [],

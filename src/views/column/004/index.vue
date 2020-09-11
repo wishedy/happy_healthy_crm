@@ -124,7 +124,8 @@ export default {
       const _this = this
       const param = {
         pageSize: _this.pageSize,
-        pageNum: _this.pageNum
+        pageNum: _this.pageNum,
+        ...data
       }
       const req = await getBanner(param)
       _this.tableList = req.list

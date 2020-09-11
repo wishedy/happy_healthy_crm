@@ -1,16 +1,16 @@
 <template>
     <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" label-position="left">
-        <el-form-item label="轮播图ID">
+        <el-form-item label="文章ID">
             <el-input v-model="formInline.id" placeholder="请输入会员ID" class="adminInputEl"></el-input>
         </el-form-item>
-        <el-form-item label="轮播图名称">
-            <el-input v-model="formInline.names" placeholder="请输入会员名称" class="adminInputEl"></el-input>
+        <el-form-item label="文章名称">
+            <el-input v-model="formInline.title" placeholder="请输入会员名称" class="adminInputEl"></el-input>
         </el-form-item>
         <el-form-item
-            label="轮播图状态:"
+            label="文章状态:"
             prop="status"
         >
-            <el-select clearable placeholder="请选择轮播图状态" v-model="formInline.status" class="search-box-item">
+            <el-select clearable placeholder="请选择文章状态" v-model="formInline.status" class="search-box-item">
                 <el-option
                     v-for="(item,index) in status"
                     :key="item"
@@ -49,7 +49,7 @@
                 <el-button type="warning" @click.native="resetList">重置</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click.native="createHandle">创建轮播图</el-button>
+                <el-button type="primary" @click.native="createHandle">新建文章</el-button>
             </el-form-item>
         </div>
     </el-form>
@@ -64,16 +64,17 @@ export default {
       formInline: {
         id: '',
         status: '',
-        names: ''
-      },
-      status: {
-        0: '下架',
-        1: '上架'
+        title: ''
+
       },
       originalForm: {
         id: '',
         status: '',
-        names: ''
+        title: ''
+      },
+      status: {
+        0: '下架',
+        1: '上架'
       },
       duringTime: [],
       updateDuringTime: [],

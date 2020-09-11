@@ -30,14 +30,50 @@ export function updateQuestions (params) {
   return api.post('/api/paperInfo/update', params)
 }
 export function addBanner (params) {
-    console.log(params)
-    return api.post('/api/sysBanner/insert', params)
+  console.log(params)
+  return api.post('/api/sysBanner/insert', params)
 }
 export function getBanner (params) {
-    console.log(params)
-    return api.get(`/api/sysBanner/query?${json2Query(params)}`)
+  console.log(params)
+  return api.get(`/api/sysBanner/query?${json2Query(params)}`)
 }
 export function updateBanner (params) {
-    console.log(params)
-    return api.post(`/api/sysBanner/update`,params)
+  console.log(params)
+  return api.post('/api/sysBanner/update', params)
+}
+export function updateArticle (params) {
+  console.log(params)
+  return api.post('/api/sysArticle/update', params)
+}
+export function addArticle (params) {
+  console.log(params)
+  return api.post('/api/sysArticle/insert', params)
+}
+export function getArticle (params) {
+  console.log(params)
+  return api.get(`/api/sysArticle/query?${json2Query(params)}`)
+}
+export function getSample (params) {
+  console.log(params)
+  return api.get(`/api/paperInfo/selectQuestionById?${json2Query(params)}`)
+}
+export function addSample (params) {
+  console.log(params)
+  return api.post('/api/questionInfo/insert', params)
+}
+export function deleteSample (params) {
+  console.log(params)
+  return api.post('/api/questionInfo/delete', params)
+}
+export function updateSampleOrderBy (params) {
+  console.log(params)
+  return api.post('/api/questionInfo/updateOrderBy', params)
+}
+export function getUserList (params) {
+  console.log(params)
+  return api.get(`/api/sysUser/query?${json2Query(params)}`)
+}
+export function updatePassWord (params) {
+  console.log(params)
+  return api.post('/api/sysUser/updatePassword', params)
 }

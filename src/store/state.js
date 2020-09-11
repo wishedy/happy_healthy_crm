@@ -6,6 +6,7 @@ const state = {
   Context: false,
   recommendDialog: false,
   outLoginDialogOnOff: false,
-  loginOnOff: localStorage.getItem('adminId') ? localStorage.getItem('adminId') : ''
+  loginOnOff: localStorage.getItem('adminId') ? localStorage.getItem('adminId') : '',
+  userName: localStorage.getItem('userName') ? localStorage.getItem('userName') : ''
 }
 export default state

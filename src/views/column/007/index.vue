@@ -26,7 +26,7 @@
     </section>
 </template>
 <script>
-import { updateQuestionsType, getQuestionsType, addQuestionsType } from '@/resource'
+import { updateArticle, getUserList, addArticle } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import TableList from './components/TableList'
@@ -35,9 +35,11 @@ export default {
   name: 'manageQuestions',
   data () {
     const adminId = localStorage.getItem('adminId')
+    const grade = localStorage.getItem('grade')
     return {
       editVisibile: false,
       updateUser: adminId,
+      grade: parseInt(grade, 10),
       pageNum: 1,
       pageSize: 10,
       editData: {},
@@ -71,7 +73,7 @@ export default {
     },
     async handleAddRequest () {
       const _this = this
-      const res = await addQuestionsType({
+      const res = await addArticle({
         createUser: _this.updateUser,
         ..._this.submitData
       })
@@ -83,7 +85,7 @@ export default {
     },
     async handleUpdateRequest () {
       const _this = this
-      const res = await updateQuestionsType({
+      const res = await updateArticle({
         updateUser: _this.updateUser,
         ..._this.submitData
       })
@@ -127,7 +129,7 @@ export default {
         pageNum: _this.pageNum,
         ...data
       }
-      const req = await getQuestionsType(param)
+      const req = await getUserList(param)
       _this.tableList = req.list
       console.log(req)
     },
@@ -139,6 +141,16 @@ export default {
   },
   mounted () {
     const _this = this
+    if ((!(isNaN(_this.grade))) && _this.grade !== 0) {
+      _this.$alert('您不是超级管理员没有权限查看管理员数据', '', {
+        dangerouslyUseHTMLString: true
+      }).then(() => {
+        location.href = '/'
+      })
+      setTimeout(() => {
+        location.href = '/'
+      }, 3000)
+    }
     _this.getTableList()
   },
   components: {

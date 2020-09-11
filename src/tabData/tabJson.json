@@ -10,26 +10,65 @@
                     {
                         "index":"0-1",
                         "title":"会员统计",
-                        "icon":"el-icon-ump-VIP",
+                        "icon":"el-icon-s-data",
                         "routerName":"001"
-                    },
+                    }
+                ]
+            },
+            {
+                "index":"1",
+                "title":"资源管理",
+                "icon":"el-icon-present",
+                "tabList":[
                     {
-                        "index":"0-2",
+                        "index":"1-1",
                         "title":"试题列表",
-                        "icon":"el-icon-ump-VIP",
+                        "icon":"el-icon-menu",
                         "routerName":"002"
                     },
                     {
-                        "index":"0-3",
+                        "index":"1-2",
                         "title":"试题分类",
                         "icon":"el-icon-ump-VIP",
                         "routerName":"003"
                     },
                     {
-                        "index":"0-4",
+                        "index":"1-3",
                         "title":"轮播图",
-                        "icon":"el-icon-ump-VIP",
+                        "icon":"el-icon-picture",
                         "routerName":"004"
+                    },
+                    {
+                        "index":"1-4",
+                        "title":"文章管理",
+                        "icon":"el-icon-document",
+                        "routerName":"005"
+                    }
+                ]
+            },
+            {
+                "index":"2",
+                "title":"系统管理",
+                "icon":"el-icon-s-tools",
+                "tabList":[
+                    {
+                        "index":"0-6",
+                        "title":"修改密码",
+                        "icon":"el-icon-lock",
+                        "routerName":"006"
+                    },
+                    {
+                        "index":"0-7",
+                        "title":"管理员管理",
+                        "icon":"el-icon-lock",
+                        "routerName":"007"
+                    },
+                    {
+                        "index": "0-8",
+                        "title": "退出登录",
+                        "icon": "el-icon-ump-exittoapp",
+                        "routerName": "054",
+                        "eventFn": "outLogin"
                     }
                 ]
             }

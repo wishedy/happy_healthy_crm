@@ -8,35 +8,24 @@
             style="width: 100%">
             <el-table-column
                 prop="id"
-                label="轮播图ID">
+                label="管理员ID">
             </el-table-column>
             <el-table-column
-                prop="names"
-                label="轮播图名称">
+                prop="realName"
+                label="管理员名称">
             </el-table-column>
             <el-table-column
-                prop="link"
-                label="跳转链接">
-            </el-table-column>
-
-            <el-table-column label="封面" min-width="200px">
-                <template slot-scope="scope">
-                    <img :src="scope.row.imgUrl" alt class="table-img" />
-                </template>
+                prop="phoneNum"
+                label="手机号">
             </el-table-column>
             <el-table-column
-                prop="describes"
-                label="轮播图描述">
+                prop="email"
+                label="电子邮件">
             </el-table-column>
             <el-table-column
-                prop="status"
+                prop="deleteFlag"
                 :formatter="formatStatus"
-                label="轮播图状态">
-            </el-table-column>
-            <el-table-column
-                prop="orderBy"
-                sortable
-                label="排序">
+                label="管理员状态">
             </el-table-column>
             <el-table-column
                 prop="createTime"
@@ -53,6 +42,8 @@
             <el-table-column  min-width="140" label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" @click.native="editColumn(scope.row)">编辑</el-button>
+                    <el-button type="text" style="margin-left: 0;" @click.native="editColumn(scope.row)">密码重置</el-button>
+                    <el-button type="text" style="margin-left: 0;" @click.native="editColumn(scope.row)">账号注销</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -76,7 +67,7 @@ export default {
       _this.$emit('edit', data)
     },
     formatStatus (row, column) {
-      const status = row.status
+      const status = row.deleteFlag
       return parseInt(status, 10) === 0 ? '下架' : '上架'
     },
     formatterCreateTime (row, column) {

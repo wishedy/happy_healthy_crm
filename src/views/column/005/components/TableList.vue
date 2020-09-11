@@ -8,30 +8,30 @@
             style="width: 100%">
             <el-table-column
                 prop="id"
-                label="轮播图ID">
+                label="文章ID">
             </el-table-column>
             <el-table-column
-                prop="names"
-                label="轮播图名称">
+                prop="title"
+                label="文章名称">
             </el-table-column>
             <el-table-column
                 prop="link"
                 label="跳转链接">
             </el-table-column>
 
-            <el-table-column label="封面" min-width="200px">
+            <el-table-column label="文章封面" min-width="200px">
                 <template slot-scope="scope">
                     <img :src="scope.row.imgUrl" alt class="table-img" />
                 </template>
             </el-table-column>
             <el-table-column
-                prop="describes"
-                label="轮播图描述">
+                prop="introduce"
+                label="文章简介">
             </el-table-column>
             <el-table-column
                 prop="status"
                 :formatter="formatStatus"
-                label="轮播图状态">
+                label="文章状态">
             </el-table-column>
             <el-table-column
                 prop="orderBy"

@@ -1,16 +1,16 @@
 <template>
     <BaseDrawer
         :visible="visible"
-        width="570px"
+        width="670px"
         @close="handleClose"
         @cancel="handleClose"
         @confirm="onsubmit"
     >
         <el-form ref="form" :model="form" :rules="rules" label-width="110px">
-            <el-form-item label="轮播图名称" prop="names">
-                <el-input v-model="form.names"></el-input>
+            <el-form-item label="文章名称" prop="title">
+                <el-input v-model="form.title"></el-input>
             </el-form-item>
-            <el-form-item label="轮播图状态" prop="online">
+            <el-form-item label="文章状态" prop="online">
                 <el-radio-group v-model="form.status">
                     <el-radio v-for="(item,key) in status"
                               :key="key"
@@ -30,7 +30,7 @@
                     placeholder="请输入类型排序"
                 />
             </el-form-item>
-            <el-form-item label="轮播图封面" prop="imgUrl">
+            <el-form-item label="文章封面" prop="imgUrl">
                 <div class="upload-wrapper">
                     <div class="upload-mask" v-if="form.imgUrl">
                         <i class="handleItem deleteImage el-icon-delete" @click="handlePictureCardDelete"></i>
@@ -48,8 +48,13 @@
                 </div>
                 <!--<el-input v-model="form.imgUrl"></el-input>-->
             </el-form-item>
-            <el-form-item label="轮播图描述" prop="describes">
-                <el-input   type="textarea" :autosize="{ minRows: 2}" placeholder="请输入轮播图描述" v-model="form.describes" class="search-box"></el-input>
+            <el-form-item label="文章描述" prop="introduce">
+                <el-input   type="textarea" :autosize="{ minRows: 2}" placeholder="请输入文章描述" v-model="form.introduce" class="search-box"></el-input>
+            </el-form-item>
+            <el-form-item
+                label="文章内容："
+            >
+                <div id="editor" class="editorPanel"></div>
             </el-form-item>
             <el-form-item label="跳转链接">
                 <el-input  placeholder="请输入跳转链接" v-model="form.link" class="search-box"></el-input>
@@ -84,13 +89,15 @@ export default {
         0: '下架',
         1: '上架'
       },
+      editor: null,
       form: {
         id: '',
         status: '0',
-        names: '',
+        title: '',
+        context: '',
         orderBy: '',
         link: '',
-        describes: '',
+        introduce: '',
         imgUrl: ''
       },
       rules: {
@@ -105,38 +112,50 @@ export default {
         imgUrl: [
           {
             required: true,
-            message: '轮播图封面不能为空',
+            message: '文章封面不能为空',
             trigger: 'blur'
           }
         ],
-        describes: [
+        context: [
           {
             required: true,
-            message: '轮播图描述不能为空',
+            message: '文章封面不能为空',
             trigger: 'blur'
           }
         ],
-        names: [
+        introduce: [
           {
             required: true,
-            message: '轮播图名称不能为空',
+            message: '文章描述不能为空',
+            trigger: 'blur'
+          }
+        ],
+        title: [
+          {
+            required: true,
+            message: '文章名称不能为空',
             trigger: 'blur'
           }
         ]
       },
       originalForm: {
         id: '',
-        names: '',
+        title: '',
         status: '0',
+        context: '',
         link: '',
         orderBy: '',
-        describes: '',
+        introduce: '',
         imgUrl: ''
       }
     }
   },
   components: {
     BaseDrawer
+  },
+  mounted () {
+    const _this = this
+    _this.initEdit()
   },
   watch: {
     visible (n) {
@@ -147,7 +166,9 @@ export default {
           console.log(key, _this.editData)
           _this.form[key] = _this.editData[key]
         })
+        _this.editor && _this.editor.txt.html(_this.form.context)
       } else {
+        _this.editor && _this.editor.txt.html('')
         _this.resetForm()
       }
     }
@@ -165,6 +186,35 @@ export default {
     },
     beforeAvatarUpload (file) {
       console.log(file)
+    },
+    initEdit () {
+      const _this = this
+      const E = require('wangeditor')
+      _this.editor = new E('#editor')
+      _this.editor.customConfig.uploadImgServer = 'https://mop-api.rouchi.com/api/app/shop/editor/upload'
+      _this.editor.customConfig.onchange = (html) => {
+        // html 即变化之后的内容
+        _this.form.context = html
+      }
+      _this.editor.customConfig.menus = [
+        'head', // 标题
+        'bold', // 粗体
+        'fontSize', // 字号
+        'fontName', // 字体
+        'italic', // 斜体
+        'underline', // 下划线
+        'strikeThrough', // 删除线
+        'foreColor', // 文字颜色
+        'backColor', // 背景颜色
+        'link', // 插入链接
+        'list', // 列表
+        'justify', // 对齐方式
+        // 'image', // 插入图片
+        'undo', // 撤销
+        'redo' // 重复
+      ]
+      _this.editor.create()
+      _this.editor.txt.html('')
     },
     resetForm () {
       const _this = this
@@ -198,5 +248,9 @@ export default {
         min-width: 300px;
         overflow: hidden;
         background: #ffffff;
+    }
+    .editorPanel{
+        width: 450px;
+        height: 400px;
     }
 </style>

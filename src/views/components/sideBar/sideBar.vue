@@ -18,7 +18,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import axios from 'axios'
+import tabData from '@/tabData/tabJson.json'
 export default {
   computed: {
     ...mapGetters(['toggleOnOff', 'columnList'])
@@ -34,21 +34,8 @@ export default {
     ...mapActions(['addTab', 'outLoginOne', 'saveColumnList']),
     getSideData () {
       const t = this
-      axios.get('/src/tabData/tabJson.json', {
-        params: {}
-      })
-        .then(function (response) {
-          const reqData = response.data
-          console.log('=================')
-          console.log(reqData.result)
-          if (reqData.result) {
-            t.tabList = reqData.result.tabList
-            t.saveColumnList(t.tabList)
-          }
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      t.tabList = tabData.result.tabList
+      t.saveColumnList(t.tabList)
     },
     runFn (v) {
       const t = this

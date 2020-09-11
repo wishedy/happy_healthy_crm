@@ -8,6 +8,9 @@ const getters = {
   columnList (state) {
     return state.columnList
   },
+  userName (state) {
+    return state.userName
+  },
   Context (state) {
     return state.Context
   },

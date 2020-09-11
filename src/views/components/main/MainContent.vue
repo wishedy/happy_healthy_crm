@@ -15,7 +15,7 @@
                     <section class="adminUser">
                         <section class="adminUserLogo">
                             <img src="@img/logo.png" alt="">
-                            萤火虫
+                            {{userName}}
                         </section>
                     </section>
                         <el-dropdown-menu slot="dropdown">
@@ -42,7 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['toggleOnOff', 'nowTabData', 'loginOnOff']),
+    ...mapGetters(['toggleOnOff', 'nowTabData', 'loginOnOff', 'userName']),
     marTop () {
       const t = this
       console.log(isEmptyObject(t.nowTabData))
@@ -62,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleSide', 'outLoginOne']),
+    ...mapActions(['toggleSide', 'outLogin', 'outLoginOne']),
     outLogin () {
       const _this = this
       _this.outLoginOne()

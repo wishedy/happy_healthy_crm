@@ -8,6 +8,7 @@
             </HandleForm>
             <TableList
                 :tableList="tableList"
+                @editTemplate="handleTemplate"
                 @edit="edit"
             ></TableList>
             <Pagination
@@ -23,6 +24,11 @@
                 @submit="handleSubmit"
                 :visible.sync = "editVisibile"
             ></EditPanel>
+            <EditTemplate
+                :options = "templateOptions"
+                @submit="handleTemplateSubmit"
+                :visible.sync = "templateVisibile"
+            ></EditTemplate>
         </section>
     </section>
 </template>
@@ -30,6 +36,7 @@
 import { updateQuestions, getQuestionsType, getQuestions, addQuestions } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
+import EditTemplate from './components/EditTemplate'
 import TableList from './components/TableList'
 import Pagination from './components/Pagination'
 export default {
@@ -38,10 +45,12 @@ export default {
     const adminId = localStorage.getItem('adminId')
     return {
       editVisibile: false,
+      templateVisibile: false,
       updateUser: adminId,
       pageNum: 1,
       pageSize: 10,
       typeList: [],
+      templateOptions: {},
       editData: {},
       submitData: {},
       tableList: [],
@@ -71,6 +80,18 @@ export default {
         _this.handleAddRequest()
       }
     },
+    handleTemplateSubmit (data) {
+      const _this = this
+      _this.submitData = data
+      console.log('提交')
+      console.log(_this.submitData, _this.submitData.id)
+      if (_this.submitData.id) {
+        _this.handleTemplateEditConfirm()
+      } else {
+        // 无id新增
+        _this.handleAddTemplateRequest()
+      }
+    },
     async getTypeList (data) {
       const _this = this
       const param = {
@@ -82,6 +103,20 @@ export default {
       console.log(req)
     },
     async handleAddRequest () {
+      const _this = this
+      console.log(_this.updateUser + '创建用户')
+      debugger
+      const res = await addQuestions({
+        createUser: _this.updateUser,
+        ..._this.submitData
+      })
+      if (res) {
+        const message = _this.submitData.id ? '编辑完成' : '创建完成'
+        _this.$message.success(message)
+      }
+      _this.handleAfterRequest()
+    },
+    async handleAddTemplateRequest () {
       const _this = this
       console.log(_this.updateUser + '创建用户')
       debugger
@@ -121,6 +156,16 @@ export default {
         _this.handleUpdateRequest()
       }).catch(() => {})
     },
+    handleTemplateEditConfirm () {
+      const _this = this
+      _this.$confirm('是否保存当前修改', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.handleUpdateRequest()
+      }).catch(() => {})
+    },
     handleAfterRequest () {
       const _this = this
       _this.submitData = {}
@@ -139,11 +184,17 @@ export default {
       const _this = this
       const param = {
         pageSize: _this.pageSize,
-        pageNum: _this.pageNum
+        pageNum: _this.pageNum,
+        ...data
       }
       const req = await getQuestions(param)
       _this.tableList = req.list
       console.log(req)
+    },
+    handleTemplate (options) {
+      const _this = this
+      _this.templateOptions = options
+      _this.templateVisibile = true
     },
     edit (data) {
       const _this = this
@@ -160,7 +211,8 @@ export default {
     HandleForm,
     TableList,
     Pagination,
-    EditPanel
+    EditPanel,
+    EditTemplate
   }
 }
 </script>

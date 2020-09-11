@@ -1,12 +1,25 @@
 <template>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" label-position="left">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="110px" label-position="left">
         <el-form-item label="试卷类型ID">
             <el-input v-model="formInline.id" placeholder="请输入会员ID" class="adminInputEl"></el-input>
         </el-form-item>
         <el-form-item label="试卷类型名称">
-            <el-input v-model="formInline.trueName" placeholder="请输入会员名称" class="adminInputEl"></el-input>
+            <el-input v-model="formInline.typeName" placeholder="请输入会员名称" class="adminInputEl"></el-input>
         </el-form-item>
-        <el-form-item label="提交时间">
+        <el-form-item
+            label="试卷类型状态:"
+            prop="status"
+        >
+            <el-select clearable placeholder="请选择试卷类型状态" v-model="formInline.status" class="search-box-item">
+                <el-option
+                    v-for="(item,index) in status"
+                    :key="item"
+                    :label="item"
+                    :value="index"
+                ></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="创建时间">
             <el-date-picker
                 v-model="duringTime"
                 type="datetimerange"
@@ -17,17 +30,6 @@
                 align="right">
             </el-date-picker>
          </el-form-item>
-        <el-form-item label="上架时间">
-            <el-date-picker
-                v-model="updateDuringTime"
-                type="datetimerange"
-                :picker-options="updatePickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right">
-            </el-date-picker>
-        </el-form-item>
         <el-form-item label="更新时间">
             <el-date-picker
                 v-model="updateDuringTime"
@@ -60,38 +62,18 @@ export default {
     return {
       updateUser: adminId,
       formInline: {
-        updateUser: adminId,
         id: '',
-        trueName: '',
-        userTutor: '',
-        userEmail: '',
-        business: '',
-        phoneNum: '',
-        province: '',
-        city: '',
-        county: '',
-        profession: '',
-        address: '',
-        userSchool: '',
-        userIdCard: '',
-        userWork: ''
+        typeName: '',
+        status: ''
+      },
+      status: {
+        0: '下架',
+        1: '上架'
       },
       originalForm: {
-        updateUser: adminId,
         id: '',
-        trueName: '',
-        userTutor: '',
-        userEmail: '',
-        business: '',
-        phoneNum: '',
-        province: '',
-        city: '',
-        county: '',
-        profession: '',
-        address: '',
-        userSchool: '',
-        userIdCard: '',
-        userWork: ''
+        status: '',
+        typeName: ''
       },
       duringTime: [],
       updateDuringTime: [],
@@ -166,6 +148,7 @@ export default {
       t.formInline = JSON.parse(JSON.stringify(t.originalForm))
       t.duringTime = []
       t.updateDuringTime = []
+      t.onSubmit()
     },
     createHandle () {
       const _this = this
