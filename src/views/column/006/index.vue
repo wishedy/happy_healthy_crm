@@ -30,11 +30,15 @@ import { checkInvalid } from '@/utils/common'
 import { testPassword } from '@/utils/regularTest'
 export default {
   data () {
+    const adminId = localStorage.getItem('adminId')
+
     const phoneNum = localStorage.getItem('phoneNum')
     const password = localStorage.getItem('password')
     return {
       labelPosition: 'right',
       phoneNum: phoneNum,
+      updateUser: adminId,
+
       password: password,
       formLabelAlign: {
         oldpassword: '',
@@ -80,8 +84,9 @@ export default {
       }
       const res = await updatePassWord({
         phoneNum: _this.phoneNum,
-        oldPassword: _this.formLabelAlign.oldpassword,
-        password: _this.formLabelAlign.newpassword
+        sysUserId: _this.updateUser,
+        oldPassword: md5(_this.formLabelAlign.oldpassword),
+        newPassword: md5(_this.formLabelAlign.newpassword)
       })
       if (res) {
         _this.$message({

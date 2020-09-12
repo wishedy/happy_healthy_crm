@@ -73,7 +73,15 @@ export function getUserList (params) {
   console.log(params)
   return api.get(`/api/sysUser/query?${json2Query(params)}`)
 }
+export function resetUserPassWord (params) {
+  console.log(params)
+  return api.get(`api/sysUser/resetPassword?${json2Query(params)}`)
+}
 export function updatePassWord (params) {
   console.log(params)
   return api.post('/api/sysUser/updatePassword', params)
+}
+export function updateAdminInfo (params) {
+  console.log(params)
+  return api.post('/api/sysUser/update', params)
 }

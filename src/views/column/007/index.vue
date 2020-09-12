@@ -150,8 +150,9 @@ export default {
       setTimeout(() => {
         location.href = '/'
       }, 3000)
+    } else {
+      _this.getTableList()
     }
-    _this.getTableList()
   },
   components: {
     HandleForm,

@@ -148,16 +148,16 @@ export default {
       }
     }
     return {
-      options: [{
+      options: [/* {
         value: '0',
         label: '超级管理员'
-      }, {
-        value: '1',
-        label: '高级管理员'
-      }, {
-        value: '2',
-        label: '普通管理员'
-      }],
+      }, */ {
+          value: '1',
+          label: '高级管理员'
+        }, {
+          value: '2',
+          label: '普通管理员'
+        }],
       ruleForm2: {
         pass: '',
         checkPass: ''

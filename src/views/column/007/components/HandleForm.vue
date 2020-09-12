@@ -70,8 +70,9 @@ export default {
         realName: ''
       },
       deleteFlag: {
-        0: '下架',
-        1: '上架'
+        0: '待审核',
+        1: '已审核',
+        2: '已注销'
       },
       duringTime: [],
       updateDuringTime: [],

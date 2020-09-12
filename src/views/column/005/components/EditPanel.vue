@@ -250,7 +250,7 @@ export default {
         background: #ffffff;
     }
     .editorPanel{
-        width: 450px;
+        width: 480px;
         height: 400px;
     }
 </style>
