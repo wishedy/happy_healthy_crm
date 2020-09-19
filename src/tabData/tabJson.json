@@ -12,6 +12,12 @@
                         "title":"会员统计",
                         "icon":"el-icon-s-data",
                         "routerName":"001"
+                    },
+                    {
+                        "index":"0-2",
+                        "title":"订单统计",
+                        "icon":"el-icon-s-data",
+                        "routerName":"008"
                     }
                 ]
             },

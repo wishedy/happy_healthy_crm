@@ -7,30 +7,53 @@
             :default-sort = "{prop: 'createTime', order: 'descending'}"
             style="width: 100%">
             <el-table-column
-                prop="id"
-                label="会员ID">
+                prop="userId"
+                label="用户ID">
+            </el-table-column>
+            <el-table-column
+                prop="paperId"
+                label="试卷ID">
             </el-table-column>
             <el-table-column
                 prop="names"
-                label="会员名称">
-            </el-table-column>、
-            <el-table-column
-                prop="email"
-                label="邮箱">
+                label="试卷名称">
             </el-table-column>
             <el-table-column
-                prop="phone"
-                label="电话">
+                prop="orderNo"
+                label="订单编号">
+            </el-table-column>
+            <el-table-column
+                prop="paperInfoName"
+                label="试卷名称">
+            </el-table-column>
+            <el-table-column
+                prop="paperTypeId"
+                label="试卷类型">
+            </el-table-column>
+            <el-table-column
+                prop="status"
+                :formatter="formatStatus"
+                label="订单状态">
+            </el-table-column>
+            <el-table-column
+                prop="paperTypeName"
+                label="试卷所属类型">
             </el-table-column>
             <el-table-column
                 prop="createTime"
                 sortable
                 :formatter="formatterCreateTime"
-                label="注册时间">
+                label="创建时间">
+            </el-table-column>
+            <el-table-column
+                prop="updateTime"
+                sortable
+                :formatter="formatterUpdateTime"
+                label="更新时间">
             </el-table-column>
             <el-table-column  min-width="140" label="操作">
                 <template slot-scope="scope">
-                    <el-button type="text" @click.native="editColumn(scope.row)">编辑</el-button>
+                    <el-button type="text" style="margin-left: 0;" @click.native="addTemplate(scope.row,0)">查看答题情况模板</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -38,7 +61,7 @@
 </template>
 
 <script>
-import { formatDate } from '../../../../utils/common'
+import moment from 'moment'
 export default {
   props: {
     tableList: {
@@ -64,42 +87,21 @@ export default {
       const _this = this
       _this.$emit('edit', data)
     },
+    addTemplate (data, type) {
+      const _this = this
+      _this.$emit('editTemplate', { ...data, type })
+    },
     formatStatus (row, column) {
       const status = row.status
       return parseInt(status, 10) === 0 ? '下架' : '上架'
     },
     formatterCreateTime (row, column) {
       const time = row.createTime
-      return formatDate(time)
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     },
     formatterUpdateTime (row, column) {
       const time = row.updateTime || row.createTime
-      return formatDate(time)
-    },
-    formatterWork (row, column) {
-      const grade = parseInt(row.userWork, 10)
-      let userWork = ''
-      switch (grade) {
-        case 1:
-          userWork = '学生'
-          break
-        case 2:
-          userWork = '教职工'
-          break
-        case 3:
-          userWork = '企业'
-          break
-        case 4:
-          userWork = '医院'
-          break
-        case 5:
-          userWork = '个人'
-          break
-        case 6:
-          userWork = row.profession
-          break
-      }
-      return userWork
+      return moment(time).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

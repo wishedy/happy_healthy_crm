@@ -6,6 +6,7 @@ import banner from './views/column/004/index'// 管理全站栏目
 import article from './views/column/005/index'// 管理全站栏目
 import password from './views/column/006/index'// 管理全站栏目
 import user from './views/column/007/index'// 管理全站栏目
+import indent from './views/column/008/index'// 管理全站栏目
 export default {
   linkActiveClass: 'active',
   routes: [
@@ -44,6 +45,10 @@ export default {
     {
       path: '/007',
       component: user
+    },
+    {
+      path: '/008',
+      component: indent
     }
   ]
 }

@@ -26,7 +26,7 @@
     </section>
 </template>
 <script>
-import { getDemoList } from '@/resource'
+import { getConsumerList } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import TableList from './components/TableList'
@@ -94,10 +94,9 @@ export default {
       const _this = this
       const param = {
         pageSize: 20,
-        pageNum: 1,
-        updateUser: 'fff32b15-54f8-410b-acc9-1c89fffe7556'
+        pageNum: 1
       }
-      const req = await getDemoList(param)
+      const req = await getConsumerList(param)
       _this.tableList = req.list
       console.log(req)
     },

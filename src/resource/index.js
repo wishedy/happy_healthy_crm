@@ -1,9 +1,13 @@
 import { json2Query } from '@/utils/common'
 const Resource = require('./create-api')
 const { api } = Resource
-export function getDemoList (params) {
+export function getConsumerList (params) {
   console.log(params)
-  return api.get(`/api/usrUser/query?${json2Query(params)}`)
+  return api.get(`/api/user/query?${json2Query(params)}`)
+}
+export function getIndentList (params) {
+  console.log(params)
+  return api.get(`/api/orders/query?${json2Query(params)}`)
 }
 export function getQuestions (params) {
   console.log(params)
