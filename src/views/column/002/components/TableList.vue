@@ -55,6 +55,7 @@
                 <template slot-scope="scope">
                     <el-button type="text" @click.native="editColumn(scope.row)">编辑基本信息</el-button>
                     <el-button type="text" style="margin-left: 0;" @click.native="addTemplate(scope.row,0)">编辑试卷模板</el-button>
+                    <el-button type="text" style="margin-left: 0;" @click.native="addConclusion(scope.row,0)">编辑测试结论</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -91,6 +92,10 @@ export default {
     addTemplate (data, type) {
       const _this = this
       _this.$emit('editTemplate', { ...data, type })
+    },
+    addConclusion (data, type) {
+      const _this = this
+      _this.$emit('editConclusion', { ...data, type })
     },
     formatStatus (row, column) {
       const status = row.status

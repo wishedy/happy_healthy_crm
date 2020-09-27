@@ -346,11 +346,14 @@ export default {
         _this.$message.error('请输入完整的选项内容')
         return false
       }
-      _this.form.choiceContent = _this.choiceContent
-      const optionInfoList = _this.getOptionsList()
-      if (optionInfoList.length === 0) {
-        _this.$message.error('请输入完整的选项内容')
-        return false
+      let optionInfoList = []
+      if ((parseInt(_this.form.types, 10) === 1 || parseInt(_this.form.types, 10) === 2)) {
+        _this.form.choiceContent = _this.choiceContent
+        optionInfoList = _this.getOptionsList()
+        if (optionInfoList.length === 0) {
+          _this.$message.error('请输入完整的选项内容')
+          return false
+        }
       }
       const param = {
         ..._this.form,

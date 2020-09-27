@@ -9,6 +9,7 @@
             <TableList
                 :tableList="tableList"
                 @editTemplate="handleTemplate"
+                @editConclusion="handleConclusion"
                 @edit="edit"
             ></TableList>
             <Pagination
@@ -29,6 +30,8 @@
                 @submit="handleTemplateSubmit"
                 :visible.sync = "templateVisibile"
             ></EditTemplate>
+            <Conclusion :options="conclusionOptions" :visible.sync = "conclusionVisibile"
+            ></Conclusion>
         </section>
     </section>
 </template>
@@ -37,6 +40,7 @@ import { updateQuestions, getQuestionsType, getQuestions, addQuestions } from '@
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import EditTemplate from './components/EditTemplate'
+import Conclusion from './components/Conclusion'
 import TableList from './components/TableList'
 import Pagination from './components/Pagination'
 export default {
@@ -46,11 +50,13 @@ export default {
     return {
       editVisibile: false,
       templateVisibile: false,
+      conclusionVisibile: false,
       updateUser: adminId,
       pageNum: 1,
       pageSize: 10,
       typeList: [],
       templateOptions: {},
+      conclusionOptions: {},
       editData: {},
       submitData: {},
       tableList: [],
@@ -196,6 +202,11 @@ export default {
       _this.templateOptions = options
       _this.templateVisibile = true
     },
+    handleConclusion (options) {
+      const _this = this
+      _this.conclusionOptions = options
+      _this.conclusionVisibile = true
+    },
     edit (data) {
       const _this = this
       _this.editData = data
@@ -212,7 +223,8 @@ export default {
     TableList,
     Pagination,
     EditPanel,
-    EditTemplate
+    EditTemplate,
+    Conclusion
   }
 }
 </script>
