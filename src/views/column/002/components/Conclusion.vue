@@ -6,7 +6,7 @@
         @cancel="handleClose"
         @confirm="onsubmit"
     >
-        <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-form ref="form" :model="form" label-width="180px">
             <el-form-item label="评分范围个数" prop="orderBy">
                 <el-input
                     v-model.number="form.optionNum"
@@ -50,10 +50,28 @@ export default {
         return {}
       }
     },
+    originalConclusion: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    conclusionData: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     options: {
       type: Object,
       default () {
         return {}
+      }
+    },
+    conclusionNum: {
+      type: Number,
+      default () {
+        return 0
       }
     },
     visible: {
@@ -86,7 +104,14 @@ export default {
   },
   watch: {
     'form.optionNum' (n) {
+      console.log(n + '改变')
       const _this = this
+      const dynamicForm = {
+        start: {},
+        end: {},
+        des: {},
+        content: {}
+      }
       if (!checkInvalid(n)) {
         if (!testNum(n)) {
           _this.$alert('【范围个数】必须是阿拉伯数字', {
@@ -108,27 +133,43 @@ export default {
             const endName = 'input' + num
             const desName = 'input' + num
             const contentName = 'input' + num
-            jsonStart[startName] = ''
-            jsonEnd[endName] = ''
-            jsonDes[desName] = ''
-            jsonContent[contentName] = ''
+            const checkVal = (key, innerKey) => {
+              if (_this.conclusionData[key][innerKey]) {
+                return _this.conclusionData[key][innerKey]
+              } else {
+                return ''
+              }
+            }
+            jsonStart[startName] = checkVal('start', startName)
+            jsonEnd[endName] = checkVal('end', endName)
+            jsonDes[desName] = checkVal('des', desName)
+            jsonContent[contentName] = checkVal('content', contentName)
           }
-          _this.dynamicForm.start = jsonStart
-          _this.dynamicForm.end = jsonEnd
-          _this.dynamicForm.des = jsonDes
-          _this.dynamicForm.content = jsonContent
+          dynamicForm.start = jsonStart
+          dynamicForm.end = jsonEnd
+          dynamicForm.des = jsonDes
+          dynamicForm.content = jsonContent
         }
+        _this.dynamicForm = JSON.parse(JSON.stringify(dynamicForm))
       }
     },
     visible (n) {
       const _this = this
       console.log('页面进入')
-      if (n && _this.editData.id) {
-        Object.keys(_this.form).forEach((key) => {
-          console.log(key, _this.editData)
-          _this.form[key] = _this.editData[key]
+      if (n) {
+        _this.originalForm.optionNum = _this.optionNum
+        _this.form.optionNum = _this.conclusionNum
+        console.log(JSON.parse(JSON.stringify(_this.conclusionData)))
+        _this.$nextTick(() => {
+          _this.dynamicForm = JSON.parse(JSON.stringify(_this.conclusionData))
+          console.log(_this.dynamicForm)
+          console.log('=============')
         })
+        console.log(_this.conclusionNum)
       } else {
+        const idObject = document.getElementsByClassName('v-modal')[0]
+
+        if (idObject != null) { idObject.parentNode.removeChild(idObject) }
         _this.resetForm()
       }
     }
@@ -144,13 +185,62 @@ export default {
     },
     onsubmit () {
       const _this = this
-      _this.$refs.form.validate(valid => {
-        if (valid) {
-          const submitForm = _this.form
-          _this.$emit('submit', submitForm)
-          console.log('submit!')
+      const result = []
+      let checkOnOff = true
+      for (let num = 0; num < _this.form.optionNum; num++) {
+        const beginGarde = _this.dynamicForm.start[`input${num}`]
+        const endGarde = _this.dynamicForm.end[`input${num}`]
+        const describes = _this.dynamicForm.des[`input${num}`]
+        const results = _this.dynamicForm.content[`input${num}`]
+        const id = _this.dynamicForm.ids && _this.dynamicForm.ids[`id${num}`] ? _this.dynamicForm.ids[`id${num}`] : ''
+        if (checkInvalid(beginGarde) || checkInvalid(endGarde) || checkInvalid(describes) || checkInvalid(results)) {
+          checkOnOff = false
+          _this.$alert('请输入完整的结论信息', {
+            confirmButtonText: '知道了'
+          })
+            .then(() => {
+              const idObject = document.getElementsByClassName('v-modal')[0]
+
+              if (idObject != null) { idObject.parentNode.removeChild(idObject) }
+              const element = document.getElementsByClassName('adminContentInner')[0]
+              console.log(element)
+              const modal = document.createElement('div')
+              modal.className = 'v-modal'
+              modal.onclick = () => {
+                _this.$emit('closeModal')
+                setTimeout(() => {
+                  modal.parentNode.removeChild(modal)
+                }, 300)
+              }
+              modal.setAttribute('tabindex', 0)
+              modal.style.zIndex = '100'
+              element.appendChild(modal)
+            })
+            .catch(action => {
+
+            })
+        } else {
+          const json = {
+            id: id,
+            paperId: _this.options.id,
+            beginGarde: _this.dynamicForm.start[`input${num}`],
+            endGarde: _this.dynamicForm.end[`input${num}`],
+            describes: _this.dynamicForm.des[`input${num}`],
+            results: _this.dynamicForm.content[`input${num}`]
+          }
+          result.push(json)
         }
-      })
+      }
+      for (let num = 0; num < _this.originalConclusion.length; num++) {
+        const item = _this.originalConclusion[num]
+        if (result[num]) {
+          result[num].id = item.id
+        }
+      }
+      if (result.length && checkOnOff) {
+        console.log(result)
+        _this.$emit('submit', result)
+      }
     }
   }
 }

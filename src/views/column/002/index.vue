@@ -30,13 +30,19 @@
                 @submit="handleTemplateSubmit"
                 :visible.sync = "templateVisibile"
             ></EditTemplate>
-            <Conclusion :options="conclusionOptions" :visible.sync = "conclusionVisibile"
+            <Conclusion
+                :originalConclusion="originalConclusion"
+                :options="conclusionOptions"
+                :conclusionNum="conclusionNum"
+                :conclusionData="conclusionData"
+                @submit="handleConclusionSubmit"
+                :visible.sync = "conclusionVisibile"
             ></Conclusion>
         </section>
     </section>
 </template>
 <script>
-import { updateQuestions, getQuestionsType, getQuestions, addQuestions } from '@/resource'
+import { updateConclusion, getTestResult, addConclusion, updateQuestions, getQuestionsType, getQuestions, addQuestions } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import EditTemplate from './components/EditTemplate'
@@ -52,13 +58,17 @@ export default {
       templateVisibile: false,
       conclusionVisibile: false,
       updateUser: adminId,
+      originalConclusion: [],
       pageNum: 1,
       pageSize: 10,
       typeList: [],
       templateOptions: {},
+      conclusionNum: 0,
+      conclusionData: {},
       conclusionOptions: {},
       editData: {},
       submitData: {},
+      submitConclusionData: {},
       tableList: [],
       total: 0
     }
@@ -98,6 +108,18 @@ export default {
         _this.handleAddTemplateRequest()
       }
     },
+    handleConclusionSubmit (data) {
+      const _this = this
+      console.log(data)
+      _this.submitConclusionData = data
+      console.log('提交')
+      if (_this.originalConclusion.length === 0) {
+        _this.handleConclusionEditConfirm()
+      } else {
+        // 无id新增
+        _this.handleAddConclusionRequest()
+      }
+    },
     async getTypeList (data) {
       const _this = this
       const param = {
@@ -111,7 +133,6 @@ export default {
     async handleAddRequest () {
       const _this = this
       console.log(_this.updateUser + '创建用户')
-      debugger
       const res = await addQuestions({
         createUser: _this.updateUser,
         ..._this.submitData
@@ -125,13 +146,23 @@ export default {
     async handleAddTemplateRequest () {
       const _this = this
       console.log(_this.updateUser + '创建用户')
-      debugger
       const res = await addQuestions({
         createUser: _this.updateUser,
         ..._this.submitData
       })
       if (res) {
         const message = _this.submitData.id ? '编辑完成' : '创建完成'
+        _this.$message.success(message)
+      }
+      _this.handleAfterRequest()
+    },
+    async handleAddConclusionRequest () {
+      const _this = this
+      console.log(_this.updateUser + '创建用户')
+      const res = await addConclusion(_this.submitConclusionData)
+      _this.originalConclusion = res
+      if (res) {
+        const message = _this.submitConclusionData[0].id ? '编辑完成' : '创建完成'
         _this.$message.success(message)
       }
       _this.handleAfterRequest()
@@ -148,9 +179,22 @@ export default {
       }
       _this.handleAfterRequest()
     },
+    async handleUpdateConclusionRequest () {
+      const _this = this
+      console.log(_this.submitConclusionData)
+      console.log('------++++++-------')
+      const res = await updateConclusion(_this.submitConclusionData)
+      if (res) {
+        const message = _this.submitConclusionData[0].id ? '编辑完成' : '更新完成'
+        _this.$message.success(message)
+      }
+      _this.handleAfterRequest()
+    },
     handleClose () {
       const _this = this
       _this.editVisibile = false
+      _this.templateVisibile = false
+      _this.conclusionVisibile = false
     },
     handleEditConfirm () {
       const _this = this
@@ -172,9 +216,20 @@ export default {
         _this.handleUpdateRequest()
       }).catch(() => {})
     },
+    handleConclusionEditConfirm () {
+      const _this = this
+      _this.$confirm('是否保存当前修改', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.handleUpdateConclusionRequest()
+      }).catch(() => {})
+    },
     handleAfterRequest () {
       const _this = this
       _this.submitData = {}
+      _this.submitConclusionData = []
       _this.getTableList()
       _this.handleClose()
     },
@@ -202,10 +257,42 @@ export default {
       _this.templateOptions = options
       _this.templateVisibile = true
     },
-    handleConclusion (options) {
+    async handleConclusion (options) {
       const _this = this
       _this.conclusionOptions = options
-      _this.conclusionVisibile = true
+      const res = await getTestResult({
+        paperId: options.id
+      })
+      if (res) {
+        const formatList = (list) => {
+          const startJson = {}
+          const endJson = {}
+          const describesJson = {}
+          const resultsJson = {}
+          const resultsIdJson = {}
+          const originalList = JSON.parse(JSON.stringify(list))
+          for (let num = 0; num < originalList.length; num++) {
+            const item = originalList[num]
+            startJson['input' + num] = parseInt(item.beginGarde, 10)
+            endJson['input' + num] = parseInt(item.endGarde, 10)
+            describesJson['input' + num] = item.describes
+            resultsJson['input' + num] = item.results
+            resultsIdJson['id' + num] = item.id
+          }
+          return {
+            start: startJson,
+            end: endJson,
+            des: describesJson,
+            ids: resultsIdJson,
+            content: resultsJson
+          }
+        }
+        console.log(res.length)
+        _this.conclusionNum = res.length
+        _this.conclusionData = formatList(res)
+        console.log(res)
+        _this.conclusionVisibile = true
+      }
     },
     edit (data) {
       const _this = this

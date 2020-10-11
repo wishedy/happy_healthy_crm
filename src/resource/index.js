@@ -21,6 +21,14 @@ export function addQuestionsType (params) {
   console.log(params)
   return api.post('/api/paperType/insert', params)
 }
+export function addConclusion (params) {
+  console.log(params)
+  return api.post('/api/paperResult/insert', params)
+}
+export function updateConclusion (params) {
+  console.log(params)
+  return api.post('/api/paperResult/update', params)
+}
 export function updateQuestionsType (params) {
   console.log(params)
   return api.post('/api/paperType/update', params)
@@ -56,6 +64,10 @@ export function addArticle (params) {
 export function getArticle (params) {
   console.log(params)
   return api.get(`/api/sysArticle/query?${json2Query(params)}`)
+}
+export function getTestResult (params) {
+  console.log(params)
+  return api.get(`/api/paperResult/query?${json2Query(params)}`)
 }
 export function getSample (params) {
   console.log(params)

@@ -15,10 +15,6 @@
                 label="试卷ID">
             </el-table-column>
             <el-table-column
-                prop="names"
-                label="试卷名称">
-            </el-table-column>
-            <el-table-column
                 prop="orderNo"
                 label="订单编号">
             </el-table-column>
@@ -27,13 +23,14 @@
                 label="试卷名称">
             </el-table-column>
             <el-table-column
-                prop="paperTypeId"
-                label="试卷类型">
-            </el-table-column>
-            <el-table-column
                 prop="status"
                 :formatter="formatStatus"
                 label="订单状态">
+            </el-table-column>
+            <el-table-column
+                prop="isOver"
+                :formatter="formatOver"
+                label="测试状态">
             </el-table-column>
             <el-table-column
                 prop="paperTypeName"
@@ -93,7 +90,11 @@ export default {
     },
     formatStatus (row, column) {
       const status = row.status
-      return parseInt(status, 10) === 0 ? '下架' : '上架'
+      return parseInt(status, 10) === 0 ? '待支付' : '已支付'
+    },
+    formatOver (row, column) {
+      const status = row.isOver
+      return parseInt(status, 10) === 0 ? '测试未完成' : '测试已完成'
     },
     formatterCreateTime (row, column) {
       const time = row.createTime

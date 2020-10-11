@@ -36,6 +36,13 @@ export default {
     BaseDrawer,
     SampleItem
   },
+  watch: {
+    visible () {
+      const idObject = document.getElementsByClassName('v-modal')[0]
+
+      if (idObject != null) { idObject.parentNode.removeChild(idObject) }
+    }
+  },
   methods: {
     onsubmit () {
       console.log('关闭')

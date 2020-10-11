@@ -33,7 +33,7 @@
     </section>
 </template>
 <script>
-import { updateQuestions, getIndentList, getQuestions, addQuestions } from '@/resource'
+import { updateQuestions, getIndentList, addQuestions } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import EditTemplate from './components/EditTemplate'
@@ -187,7 +187,7 @@ export default {
         pageNum: _this.pageNum,
         ...data
       }
-      const req = await getQuestions(param)
+      const req = await getIndentList(param)
       _this.tableList = req.list
       console.log(req)
     },

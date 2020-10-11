@@ -47,7 +47,7 @@
           </section>
       </section>
       <el-dialog
-          title="新增控件"
+          title="新增测试题"
           width="50%"
           center
           :modal-append-to-body="false"
@@ -55,10 +55,28 @@
           :before-close="editClose">
           <div class="block">
               <el-form ref="form" :model="form" label-width="120px">
-                  <el-form-item label="控件标题">
+                  <el-form-item label="测试题标题">
                       <el-input v-model="form.title" class="adminInputEl"></el-input>
                   </el-form-item>
-                  <el-form-item label="控件类型">
+                  <el-form-item label="测试题题干图片" prop="imgUrl">
+                      <div class="upload-wrapper">
+                          <div class="upload-mask" v-if="form.imgUrl">
+                              <i class="handleItem deleteImage el-icon-delete" @click="handlePictureCardDelete"></i>
+                          </div>
+                          <el-upload
+                              accept=".jpg,.jpeg,.png,.JPG,.JPEG,.PNG"
+                              class="avatar-uploader"
+                              action="/api/upload/uploadImg"
+                              :show-file-list="false"
+                              :on-success="handleAvatarSuccess"
+                              :before-upload="beforeAvatarUpload">
+                              <img v-if="form.imgUrl" :src="form.imgUrl" class="avatar">
+                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                          </el-upload>
+                      </div>
+                      <!--<el-input v-model="form.imgUrl"></el-input>-->
+                  </el-form-item>
+                  <el-form-item label="测试题类型">
                       <el-radio-group v-model="form.types">
                           <el-radio label="1">单选</el-radio>
                           <el-radio label="2">多选</el-radio>
@@ -76,7 +94,7 @@
                       <el-input v-model="form.optionNum" class="adminInputEl"></el-input>个
                   </el-form-item>
                   <el-form-item label="每个选项内容" v-if="(parseInt(form.types,10)===1||parseInt(form.types,10)===2)&&form.optionNum">
-                      <section v-for="i in parseInt(form.optionNum,10)" :key="i">
+                      <section v-for="i in parseInt(form.optionNum,10)" :key="i" style="border: 1px dashed #ccc;padding:20px;margin-bottom: 30px;">
                           <div>
                               <span v-text="'选项'+i+'的内容'"></span>
                               <el-input class="adminInputEl" :placeholeder="'请输入选项'+i+'的内容'" v-model="dynamicForm.input['input'+(i-1)]"></el-input>
@@ -136,6 +154,7 @@ export default {
         grade: {}
       },
       form: {
+        imgUrl: '',
         title: '',
         types: '',
         isMust: '',
@@ -144,6 +163,7 @@ export default {
         choiceContent: ''
       },
       originalForm: {
+        imgUrl: '',
         title: '',
         types: '',
         isMust: '',
@@ -301,7 +321,7 @@ export default {
     },
     deleteSample (id) {
       const _this = this
-      _this.$confirm('您确定要删除该控件?', '提示', {
+      _this.$confirm('您确定要删除该测试题?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -319,6 +339,19 @@ export default {
         }
       })
     },
+    handlePictureCardDelete () {
+      const _this = this
+      _this.form.imgUrl = ''
+    },
+    handleAvatarSuccess (res, file) {
+      const _this = this
+      console.log('触发======')
+      console.log(res)
+      _this.form.imgUrl = res.result.url
+    },
+    beforeAvatarUpload (file) {
+      console.log(file)
+    },
     addForm () {
       const _this = this
       _this.editVisible = true
@@ -327,15 +360,15 @@ export default {
       const _this = this
       console.log('submit!')
       if (checkInvalid(_this.form.title)) {
-        _this.$message.error('请输入控件标题')
+        _this.$message.error('请输入测试题标题')
         return false
       }
       if (checkInvalid(_this.form.types)) {
-        _this.$message.error('请选择控件类型')
+        _this.$message.error('请选择测试题类型')
         return false
       }
       if (checkInvalid(_this.form.isMust)) {
-        _this.$message.error('请确定该控件是否是必填')
+        _this.$message.error('请确定该测试题是否是必填')
         return false
       }
       if ((parseInt(_this.form.types, 10) === 1 || parseInt(_this.form.types, 10) === 2) && checkInvalid(_this.form.optionNum)) {
