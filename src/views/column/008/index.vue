@@ -26,6 +26,7 @@
             ></EditPanel>
             <EditTemplate
                 :options = "templateOptions"
+                :gradeOptions = "gradeOptions"
                 @submit="handleTemplateSubmit"
                 :visible.sync = "templateVisibile"
             ></EditTemplate>
@@ -33,7 +34,7 @@
     </section>
 </template>
 <script>
-import { updateQuestions, getIndentList, addQuestions } from '@/resource'
+import { getGrade, updateQuestions, getIndentList, addQuestions } from '@/resource'
 import HandleForm from './components/HandleForm'
 import EditPanel from './components/EditPanel'
 import EditTemplate from './components/EditTemplate'
@@ -51,6 +52,7 @@ export default {
       pageSize: 10,
       typeList: [],
       templateOptions: {},
+      gradeOptions: {},
       editData: {},
       submitData: {},
       tableList: [],
@@ -191,9 +193,14 @@ export default {
       _this.tableList = req.list
       console.log(req)
     },
-    handleTemplate (options) {
+    async handleTemplate (options) {
       const _this = this
       _this.templateOptions = options
+      _this.gradeOptions = await getGrade({
+        userId: options.userId,
+        paperId: options.paperId,
+        orderId: options.id
+      })
       _this.templateVisibile = true
     },
     edit (data) {

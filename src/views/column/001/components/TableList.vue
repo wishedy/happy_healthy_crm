@@ -13,14 +13,27 @@
             <el-table-column
                 prop="names"
                 label="会员名称">
-            </el-table-column>、
+            </el-table-column>
+            <el-table-column
+                prop="sex"
+                :formatter="formatterSex"
+                label="性别">
+            </el-table-column>
             <el-table-column
                 prop="email"
                 label="邮箱">
             </el-table-column>
             <el-table-column
+                prop="birthday"
+                label="生日">
+            </el-table-column>
+            <el-table-column
                 prop="phone"
                 label="电话">
+            </el-table-column>
+            <el-table-column
+                prop="totalMoney"
+                label="总计消费">
             </el-table-column>
             <el-table-column
                 prop="createTime"
@@ -28,11 +41,11 @@
                 :formatter="formatterCreateTime"
                 label="注册时间">
             </el-table-column>
-            <el-table-column  min-width="140" label="操作">
+            <!--<el-table-column  min-width="140" label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" @click.native="editColumn(scope.row)">编辑</el-button>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
         </el-table>
     </div>
 </template>
@@ -64,9 +77,9 @@ export default {
       const _this = this
       _this.$emit('edit', data)
     },
-    formatStatus (row, column) {
+    formatterSex (row, column) {
       const status = row.status
-      return parseInt(status, 10) === 0 ? '下架' : '上架'
+      return parseInt(status, 10) === 0 ? '女' : '男'
     },
     formatterCreateTime (row, column) {
       const time = row.createTime

@@ -6,7 +6,7 @@
         @cancel="handleClose"
         @confirm="handleClose"
     >
-        <SampleItem :options="options" :show="visible" @closeModal="handleClose"></SampleItem>
+        <SampleItem :gradeOptions="gradeOptions" :options="options" :show="visible" @closeModal="handleClose"></SampleItem>
     </BaseDrawer>
 </template>
 <script>
@@ -15,6 +15,12 @@ import SampleItem from './SampleItem'
 export default {
   props: {
     options: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    gradeOptions: {
       type: Object,
       default () {
         return {}

@@ -2,13 +2,11 @@
   <section class="sample-item">
     <h1 class="instrument-title">
       <i></i>
-      <span>试卷模板：<em>注意：多个题目时，拖动题目可以改变题目顺序</em></span>
+      <span>{{options.userPhone}}-用户答题详情：</span>
     </h1>
-      <section class="sample-form-module nothing" v-if="list.length===0">
+      <section class="sample-form-module nothing" v-if="list&&list.length===0">
           该试卷暂无题目点击蓝色按钮开始试题
       </section>
-      <vuedraggable class="wrapper" v-model="list">
-          <transition-group>
     <section class="sample-form-module" :key="item.id" v-for="(item,index) in list" :class="{'sample-form-input':parseInt(item.types,10)===3,'sample-form-check':parseInt(item.types,10)===2,'sample-form-radio':parseInt(item.types,10)===1,'sample-form-text':parseInt(item.types,10)===4}">
       <section class="form-panel">
           <span class="label">
@@ -16,100 +14,46 @@
             {{item.title}}：
           </span>
           <span class="wrap" v-if="parseInt(item.types,10)===3">
-            <input type="text" :placeholder="'请输入'+item.title" disabled>
+            <input type="text" :placeholder="'请输入'+item.title" disabled :value="item.answerInfo">
           </span>
           <span class="wrap" v-if="parseInt(item.types,10)===4">
           <textarea name=""   cols="30" rows="10" :placeholder="'请输入'+item.title" disabled></textarea>
           </span>
           <span class="wrap" v-if="parseInt(item.types,10)===1||parseInt(item.types,10)===2">
-          <span class="radio-item" v-for="(radioItem,radioIndex) in item.optionInfoList" :key="index+'-'+radioIndex">
-            <i></i>
+          <span class="radio-item" v-for="(radioItem,radioIndex) in item.optionInfoList" :key="index+'-'+radioIndex" :class="{'active':radioItem.id===item.answerInfo}">
+            <i :class="{'el-icon-success':radioItem.id===item.answerInfo}"></i>
             <em v-text="radioItem.contents+'分值('+radioItem.grade+')'"></em>
           </span>
         </span>
           <span class="require" v-if="(parseInt(item.isMust,10)===0)">必填</span>
-          <span class="sample-delete" @click="deleteSample(item.id)">
-              <i></i>
-              删除
-            </span>
       </section>
       <section class="tips" v-if="item.tipsText">
         <i>!</i>
         <em v-text="item.tipsText"></em>
       </section>
     </section>
-          </transition-group>
-      </vuedraggable>
-    <section class="sample-form-module sample-form-add">
-          <section class="addHandle" @click="addForm">
-              <em class="addIcon el-icon-circle-plus"></em>
-              <span>添加单一题目</span>
-          </section>
-      </section>
-      <el-dialog
-          title="新增控件"
-          width="50%"
-          center
-          :modal-append-to-body="false"
-          :visible.sync="editVisible"
-          :before-close="editClose">
-          <div class="block">
-              <el-form ref="form" :model="form" label-width="120px">
-                  <el-form-item label="控件标题">
-                      <el-input v-model="form.title" class="adminInputEl"></el-input>
-                  </el-form-item>
-                  <el-form-item label="控件类型">
-                      <el-radio-group v-model="form.types">
-                          <el-radio label="1">单选</el-radio>
-                          <el-radio label="2">多选</el-radio>
-                          <el-radio label="3">输入框</el-radio>
-                          <el-radio label="4">文本框</el-radio>
-                      </el-radio-group>
-                  </el-form-item>
-                  <el-form-item label="必填">
-                      <el-radio-group v-model="form.isMust">
-                          <el-radio label="0">必传</el-radio>
-                          <el-radio label="1">非必传</el-radio>
-                      </el-radio-group>
-                  </el-form-item>
-                  <el-form-item label="选项个数" v-if="parseInt(form.types,10)===1||parseInt(form.types,10)===2">
-                      <el-input v-model="form.optionNum" class="adminInputEl"></el-input>个
-                  </el-form-item>
-                  <el-form-item label="每个选项内容" v-if="(parseInt(form.types,10)===1||parseInt(form.types,10)===2)&&form.optionNum">
-                      <section v-for="i in parseInt(form.optionNum,10)" :key="i">
-                          <div>
-                              <span v-text="'选项'+i+'的内容'"></span>
-                              <el-input class="adminInputEl" :placeholeder="'请输入选项'+i+'的内容'" v-model="dynamicForm.input['input'+(i-1)]"></el-input>
-
-                          </div>
-                          <div>
-                              <span v-text="'选项'+i+'的分值'"></span>
-                              <el-input class="adminInputEl" :placeholeder="'请输入选项'+i+'对应的分值'" v-model="dynamicForm.grade['input'+(i-1)]"></el-input>
-
-                          </div>
-                      </section>
-                  </el-form-item>
-                  <el-form-item label="提示内容">
-                      <el-input type="textarea" v-model="form.tipsText" class="adminInputEl"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="onSubmit">确定</el-button>
-                      <el-button @click="editVisible=false">取消</el-button>
-                  </el-form-item>
-              </el-form>
-          </div>
-      </el-dialog>
+      <h1 class="instrument-title">
+          <i></i>
+          <span>用户答题得分：</span>
+      </h1>
+      <section class="instrument-label">得分：{{gradeOptions.garde}}</section>
+      <section class="instrument-label">症状：{{gradeOptions.describes}}</section>
+      <section class="instrument-label">结论：{{gradeOptions.results}}</section>
   </section>
 </template>
 <script>
-import vuedraggable from 'vuedraggable'
-import { updateSampleOrderBy, getSample, deleteSample, addSample } from '@/resource'
 import { checkInvalid } from '@/utils/common'
 import { testNum } from '@/utils/regularTest'
 export default {
   name: 'sampleItem',
   props: {
     options: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
+    gradeOptions: {
       type: Object,
       default () {
         return {}
@@ -152,9 +96,6 @@ export default {
         choiceContent: ''
       }
     }
-  },
-  components: {
-    vuedraggable
   },
   computed: {
     choiceContent () {
@@ -243,25 +184,6 @@ export default {
           _this.dynamicForm.grade = jsonGrade
         }
       }
-    },
-    list (n) {
-      if (n) {
-        const param = []
-        for (let num = 0; num < n.length; num++) {
-          const json = {
-            id: n[num].id,
-            orderBy: num
-          }
-          param.push(json)
-        }
-        const updateList = async () => {
-          const res = await updateSampleOrderBy(param)
-          if (res) {
-            console.log('更新成功')
-          }
-        }
-        param.length && updateList()
-      }
     }
   },
   mounted () {
@@ -290,78 +212,17 @@ export default {
     },
     async getList () {
       const _this = this
-      const params = {
-        paperInfoId: _this.options.id
-      }
-      const res = await getSample(params)
-      if (res) {
-        _this.list = res
-        _this.editVisible = false
-      }
-    },
-    deleteSample (id) {
-      const _this = this
-      _this.$confirm('您确定要删除该控件?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const param = {
-          id: id
-        }
-        const res = await deleteSample(param)
-        if (res) {
-          _this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          await _this.getList()
-        }
-      })
+      console.log('答案在这里')
+      console.log(_this.options.userQuestionResults)
+      _this.list = _this.options.userQuestionResults
+      _this.editVisible = false
     },
     addForm () {
       const _this = this
       _this.editVisible = true
     },
-    async onSubmit () {
-      const _this = this
-      console.log('submit!')
-      if (checkInvalid(_this.form.title)) {
-        _this.$message.error('请输入控件标题')
-        return false
-      }
-      if (checkInvalid(_this.form.types)) {
-        _this.$message.error('请选择控件类型')
-        return false
-      }
-      if (checkInvalid(_this.form.isMust)) {
-        _this.$message.error('请确定该控件是否是必填')
-        return false
-      }
-      if ((parseInt(_this.form.types, 10) === 1 || parseInt(_this.form.types, 10) === 2) && checkInvalid(_this.form.optionNum)) {
-        _this.$message.error('请输入选项个数')
-        return false
-      }
-      if ((parseInt(_this.form.types, 10) === 1 || parseInt(_this.form.types, 10) === 2) && (parseInt(_this.form.optionNum, 10)) && ((checkInvalid(_this.choiceContent)) || (!_this.choiceContentOnOff))) {
-        _this.$message.error('请输入完整的选项内容')
-        return false
-      }
-      _this.form.choiceContent = _this.choiceContent
-      const optionInfoList = _this.getOptionsList()
-      if (optionInfoList.length === 0) {
-        _this.$message.error('请输入完整的选项内容')
-        return false
-      }
-      const param = {
-        ..._this.form,
-        paperId: _this.options.id,
-        orderBy: 1,
-        optionInfoList: optionInfoList
-      }
-      const res = await addSample(param)
-      if (res) {
-        _this.getList()
-      }
+    onSubmit () {
+      return
     }
   }
 }
@@ -395,6 +256,19 @@ export default {
             font-size: 14px;
         }
     }
+    .instrument-label{
+      height:25px;
+      font-size:18px;
+      font-family:PingFangSC-Semibold,PingFang SC;
+      font-weight:100;
+      color:rgba(99,99,99,1);
+      line-height:25px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+        margin-bottom: 20px;
+    }
     .sample-delete{
         display: flex;
       flex-direction: row;
@@ -422,12 +296,10 @@ export default {
         padding-left: 83px;
         border:1px dashed rgba(0,0,0,0);
         &:hover{
-            border:1px dashed #c0c4cc;
             .sample-delete{
                 visibility: visible;
             }
         }
-        cursor: move;
       .form-panel{
         display: flex;
         flex-direction: row;
@@ -592,6 +464,12 @@ export default {
               border-radius: 50%;
               margin-right: 10px;
             }
+              &.active{
+                  i{
+                      border: 1px solid rgba(64,169,255,1);
+                      color: rgba(64,169,255,1);
+                  }
+              }
             em{
               font-style: normal;
               font-size:16px;

@@ -9,6 +9,10 @@ export function getIndentList (params) {
   console.log(params)
   return api.get(`/api/orders/query?${json2Query(params)}`)
 }
+export function getGrade (params) {
+  console.log(params)
+  return api.get(`/api/answer/getUserGard?${json2Query(params)}`)
+}
 export function getQuestions (params) {
   console.log(params)
   return api.get(`/api/paperInfo/query?${json2Query(params)}`)

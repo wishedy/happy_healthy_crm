@@ -6,42 +6,6 @@
         <el-form-item label="会员名称">
             <el-input v-model="formInline.trueName" placeholder="请输入会员名称" class="adminInputEl"></el-input>
         </el-form-item>
-        <el-form-item label="导师">
-            <el-input v-model="formInline.userTutor" placeholder="请输入导师名称" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="研究方向">
-            <el-input v-model="formInline.business" placeholder="研究方向" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="联系方式">
-            <el-input v-model="formInline.phoneNum" placeholder="联系方式" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="省">
-            <el-input v-model="formInline.province" placeholder="省" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="市">
-            <el-input v-model="formInline.city" placeholder="市" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="县/区">
-            <el-input v-model="formInline.county" placeholder="县/区" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="其他职业">
-            <el-input v-model="formInline.profession" placeholder="其他职业" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="学校/单位">
-            <el-input v-model="formInline.userSchool" placeholder="学校/单位" class="adminInputEl"></el-input>
-        </el-form-item>
-        <el-form-item label="职业">
-            <el-select v-model="formInline.userWork" placeholder="职业" class="adminInputEl">
-                <el-option label="学生" value="1"></el-option>
-                <el-option label="教职工" value="2"></el-option>
-                <el-option label="企业" value="3"></el-option>
-                <el-option label="医院" value="4"></el-option>
-                <el-option label="个人" value="5"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="职业">
-            <el-input v-model="formInline.userWork" placeholder="请输入会员名称" class="adminInputEl"></el-input>
-        </el-form-item>
         <el-form-item label="提交时间">
             <el-date-picker
                 v-model="duringTime"
