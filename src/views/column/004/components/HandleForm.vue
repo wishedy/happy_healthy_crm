@@ -1,5 +1,5 @@
 <template>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" label-position="left">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="120px" label-position="left">
         <el-form-item label="轮播图ID">
             <el-input v-model="formInline.id" placeholder="请输入会员ID" class="adminInputEl"></el-input>
         </el-form-item>
@@ -19,28 +19,6 @@
                 ></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="提交时间">
-            <el-date-picker
-                v-model="duringTime"
-                type="datetimerange"
-                :picker-options="createPickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right">
-            </el-date-picker>
-         </el-form-item>
-        <el-form-item label="更新时间">
-            <el-date-picker
-                v-model="updateDuringTime"
-                type="datetimerange"
-                :picker-options="updatePickerOptions"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                align="right">
-            </el-date-picker>
-        </el-form-item>
         <div class="block">
             <el-form-item>
                 <el-button type="default" @click.native="onSubmit">查询</el-button>
@@ -55,7 +33,6 @@
     </el-form>
 </template>
 <script>
-import { createTime } from '@/utils/common'
 export default {
   data () {
     const adminId = localStorage.getItem('adminId')
@@ -137,17 +114,14 @@ export default {
     onSubmit () {
       const _this = this
       console.log(_this.duringTime)
-      const beginTime = _this.duringTime.length ? createTime(_this.duringTime[0]) : ''
-      const endTime = _this.duringTime.length ? createTime(_this.duringTime[1]) : ''
-      const updateBeginTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[0]) : ''
-      const updateEndTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[1]) : ''
-      _this.$emit('getTableList', { ..._this.formInline, beginTime, endTime, updateBeginTime, updateEndTime })
+      _this.$emit('getTableList', { ..._this.formInline })
     },
     resetList () {
       const t = this
       t.formInline = JSON.parse(JSON.stringify(t.originalForm))
       t.duringTime = []
       t.updateDuringTime = []
+      t.onSubmit()
     },
     createHandle () {
       const _this = this

@@ -94,7 +94,8 @@ export default {
       const _this = this
       const param = {
         pageSize: 20,
-        pageNum: 1
+        pageNum: 1,
+        ...data
       }
       const req = await getConsumerList(param)
       _this.tableList = req.list

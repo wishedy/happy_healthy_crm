@@ -56,9 +56,6 @@
             >
                 <div id="editor" class="editorPanel"></div>
             </el-form-item>
-            <el-form-item label="跳转链接">
-                <el-input  placeholder="请输入跳转链接" v-model="form.link" class="search-box"></el-input>
-            </el-form-item>
 
         </el-form>
     </BaseDrawer>

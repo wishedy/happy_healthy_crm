@@ -4,9 +4,9 @@
             <el-input v-model="formInline.id" placeholder="请输入会员ID" class="adminInputEl"></el-input>
         </el-form-item>
         <el-form-item label="会员名称">
-            <el-input v-model="formInline.trueName" placeholder="请输入会员名称" class="adminInputEl"></el-input>
+            <el-input v-model="formInline.names" placeholder="请输入会员名称" class="adminInputEl"></el-input>
         </el-form-item>
-        <el-form-item label="提交时间">
+        <!--<el-form-item label="提交时间">
             <el-date-picker
                 v-model="duringTime"
                 type="datetimerange"
@@ -27,7 +27,7 @@
                 end-placeholder="结束日期"
                 align="right">
             </el-date-picker>
-        </el-form-item>
+        </el-form-item>-->
         <div class="block">
             <el-form-item>
                 <el-button type="default" @click.native="onSubmit">查询</el-button>
@@ -35,14 +35,10 @@
             <el-form-item>
                 <el-button type="warning" @click.native="resetList">重置</el-button>
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click.native="createHandle">新建</el-button>
-            </el-form-item>
         </div>
     </el-form>
 </template>
 <script>
-import { createTime } from '@/utils/common'
 export default {
   data () {
     const adminId = localStorage.getItem('adminId')
@@ -51,36 +47,12 @@ export default {
       formInline: {
         updateUser: adminId,
         id: '',
-        trueName: '',
-        userTutor: '',
-        userEmail: '',
-        business: '',
-        phoneNum: '',
-        province: '',
-        city: '',
-        county: '',
-        profession: '',
-        address: '',
-        userSchool: '',
-        userIdCard: '',
-        userWork: ''
+        names: ''
       },
       originalForm: {
         updateUser: adminId,
         id: '',
-        trueName: '',
-        userTutor: '',
-        userEmail: '',
-        business: '',
-        phoneNum: '',
-        province: '',
-        city: '',
-        county: '',
-        profession: '',
-        address: '',
-        userSchool: '',
-        userIdCard: '',
-        userWork: ''
+        names: ''
       },
       duringTime: [],
       updateDuringTime: [],
@@ -144,17 +116,18 @@ export default {
     onSubmit () {
       const _this = this
       console.log(_this.duringTime)
-      const beginTime = _this.duringTime.length ? createTime(_this.duringTime[0]) : ''
-      const endTime = _this.duringTime.length ? createTime(_this.duringTime[1]) : ''
-      const updateBeginTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[0]) : ''
-      const updateEndTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[1]) : ''
-      _this.$emit('getTableList', { ..._this.formInline, beginTime, endTime, updateBeginTime, updateEndTime })
+      // const beginTime = _this.duringTime.length ? createTime(_this.duringTime[0]) : ''
+      // const endTime = _this.duringTime.length ? createTime(_this.duringTime[1]) : ''
+      // const updateBeginTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[0]) : ''
+      // const updateEndTime = _this.updateDuringTime.length ? createTime(_this.updateDuringTime[1]) : ''
+      _this.$emit('getTableList', { ..._this.formInline })
     },
     resetList () {
       const t = this
       t.formInline = JSON.parse(JSON.stringify(t.originalForm))
       t.duringTime = []
       t.updateDuringTime = []
+      t.$emit('getTableList', {})
     },
     createHandle () {
       const _this = this

@@ -15,7 +15,9 @@
                 label="文章名称">
             </el-table-column>
             <el-table-column
-                prop="link"
+                prop="id"
+                sortable
+                :formatter="formatterLink"
                 label="跳转链接">
             </el-table-column>
 
@@ -78,6 +80,10 @@ export default {
     formatStatus (row, column) {
       const status = row.status
       return parseInt(status, 10) === 0 ? '下架' : '上架'
+    },
+    formatterLink (row, column) {
+      const id = row.id
+      return `https://article.foodiu.cn/home?id=${id}`
     },
     formatterCreateTime (row, column) {
       const time = row.createTime
