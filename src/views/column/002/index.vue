@@ -63,7 +63,7 @@ export default {
       pageSize: 10,
       typeList: [],
       templateOptions: {},
-      conclusionNum: 0,
+      conclusionNum: 1,
       conclusionData: {},
       conclusionOptions: {},
       editData: {},
@@ -288,7 +288,7 @@ export default {
           }
         }
         console.log(res.length)
-        _this.conclusionNum = res.length
+        _this.conclusionNum = res.length ? res.length : 1
         _this.conclusionData = formatList(res)
         console.log(res)
         _this.conclusionVisibile = true

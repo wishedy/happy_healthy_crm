@@ -6,8 +6,8 @@
         @cancel="handleClose"
         @confirm="onsubmit"
     >
-        <el-form ref="form" :model="form" label-width="180px">
-            <el-form-item label="评分范围个数" prop="orderBy">
+        <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+            <el-form-item label="评分范围个数" prop="optionNum">
                 <el-input
                     v-model.number="form.optionNum"
                     type='number'
@@ -71,7 +71,7 @@ export default {
     conclusionNum: {
       type: Number,
       default () {
-        return 0
+        return 1
       }
     },
     visible: {
@@ -86,16 +86,34 @@ export default {
   data () {
     return {
       dynamicForm: {
-        start: {},
-        end: {},
-        des: {},
-        content: {}
+        start: {
+          input0: ''
+        },
+        end: {
+          input0: ''
+        },
+        des: {
+          input0: ''
+        },
+        content: {
+          input0: ''
+        }
+      },
+      rules: {
+        optionNum: [
+          { min: 1, type: 'integer', message: '请输入正确的范围个数', trigger: ['blur'] },
+          {
+            required: true,
+            message: '【范围个数】必须是阿拉伯数字',
+            trigger: 'blur'
+          }
+        ]
       },
       form: {
-        optionNum: 0
+        optionNum: 1
       },
       originalForm: {
-        optionNum: 0
+        optionNum: 1
       }
     }
   },
@@ -118,7 +136,7 @@ export default {
             confirmButtonText: '知道了'
           })
             .then(() => {
-              _this.form.optionNum = ''
+              _this.form.optionNum = 1
             })
             .catch(action => {
 
@@ -155,17 +173,12 @@ export default {
     },
     visible (n) {
       const _this = this
-      console.log('页面进入')
       if (n) {
-        _this.originalForm.optionNum = _this.optionNum
+        _this.originalForm.optionNum = 1
         _this.form.optionNum = _this.conclusionNum
-        console.log(JSON.parse(JSON.stringify(_this.conclusionData)))
         _this.$nextTick(() => {
           _this.dynamicForm = JSON.parse(JSON.stringify(_this.conclusionData))
-          console.log(_this.dynamicForm)
-          console.log('=============')
         })
-        console.log(_this.conclusionNum)
       } else {
         const idObject = document.getElementsByClassName('v-modal')[0]
 
@@ -203,7 +216,6 @@ export default {
 
               if (idObject != null) { idObject.parentNode.removeChild(idObject) }
               const element = document.getElementsByClassName('adminContentInner')[0]
-              console.log(element)
               const modal = document.createElement('div')
               modal.className = 'v-modal'
               modal.onclick = () => {
@@ -238,7 +250,6 @@ export default {
         }
       }
       if (result.length && checkOnOff) {
-        console.log(result)
         _this.$emit('submit', result)
       }
     }
