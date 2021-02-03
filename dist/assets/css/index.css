@@ -163,13 +163,13 @@ to{-webkit-transform:translate3d(20px,0,0);transform:translate3d(20px,0,0);opaci
 to{-webkit-transform:translate3d(20px,0,0);transform:translate3d(20px,0,0);opacity:0
 }
 }
-.adminContentInner[data-v-d94e7b88]{width:96%;height:96%;padding:2%;padding-right:1%;position:relative;z-index:0
+.adminContentInner[data-v-55917113]{width:96%;height:96%;padding:2%;padding-right:1%;position:relative;z-index:0
 }
-.adminContentInner .adminInputEl[data-v-d94e7b88]{width:200px
+.adminContentInner .adminInputEl[data-v-55917113]{width:200px
 }
-.adminContentInner .adminUserControl[data-v-d94e7b88]{padding:0 0 10px
+.adminContentInner .adminUserControl[data-v-55917113]{padding:0 0 10px
 }
-.adminContentInner .adminAuditControl[data-v-d94e7b88],.adminContentInner .adminPage[data-v-d94e7b88]{padding:20px 0
+.adminContentInner .adminAuditControl[data-v-55917113],.adminContentInner .adminPage[data-v-55917113]{padding:20px 0
 }
 .edit-panel[data-v-bb21e23a]{position:fixed;top:0;right:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;min-width:300px;overflow:hidden;background:#fff
 }
@@ -265,7 +265,7 @@ to{-webkit-transform:translate3d(20px,0,0);transform:translate3d(20px,0,0);opaci
 }
 .sample-item .adminInputEl{width:300px;margin-right:10px;margin-bottom:5px
 }
-.edit-panel[data-v-1b1ee9e0]{position:fixed;top:0;right:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;min-width:300px;overflow:hidden;background:#fff
+.edit-panel[data-v-42b69006]{position:fixed;top:0;right:0;bottom:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;min-width:300px;overflow:hidden;background:#fff
 }
 .adminContentInner[data-v-b7155ed0]{width:96%;height:96%;padding:2%;padding-right:1%;position:relative;z-index:0
 }

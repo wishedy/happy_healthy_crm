@@ -128,6 +128,7 @@ export default {
       }
       const req = await getQuestionsType(param)
       _this.typeList = req.list
+      _this.total = req.total
       console.log(req)
     },
     async handleAddRequest () {

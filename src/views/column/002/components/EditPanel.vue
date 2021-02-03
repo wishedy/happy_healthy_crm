@@ -10,6 +10,12 @@
             <el-form-item label="试卷名称" prop="names">
                 <el-input v-model="form.names"></el-input>
             </el-form-item>
+            <el-form-item label="收费类型" prop="isCharge">
+                <el-radio-group v-model="form.isCharge">
+                    <el-radio label="1">免费</el-radio>
+                    <el-radio label="0">收费</el-radio>
+                </el-radio-group>
+            </el-form-item>
             <el-form-item label="原始价格" prop="beginPrice">
                 <el-input v-model="form.beginPrice"></el-input>
             </el-form-item>
@@ -131,7 +137,7 @@ export default {
         id: '',
         typeId: '',
         orderBy: '',
-
+        isCharge: '',
         beginPrice: '',
         status: 0,
         names: '',
@@ -180,6 +186,13 @@ export default {
             trigger: 'blur'
           }
         ],
+        isCharge: [
+          {
+            required: true,
+            message: '收费类型不能为空',
+            trigger: 'blur'
+          }
+        ],
         describes: [
           {
             required: true,
@@ -199,7 +212,7 @@ export default {
         id: '',
         typeId: '',
         orderBy: '',
-
+        isCharge: '',
         beginPrice: '',
         names: '',
         status: '0',
